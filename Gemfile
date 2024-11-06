@@ -12,7 +12,7 @@ gem "haml"
 gem "haml-rails"
 gem 'listen'
 gem 'newrelic_rpm'
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.11.4'
 gem "omniauth"
 gem 'omniauth-github'
 gem 'octokit'
@@ -23,12 +23,12 @@ gem "twitter-bootstrap-rails"
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'rack-timeout'
-gem 'rails', '~> 7.0.8.6'
-gem 'rake', '< 13.2.1'
+gem 'rails', '~> 5.2.4.3'
+gem 'rake', '< 13.0'
 gem 'sass-rails'
 gem 'thin'
 gem 'turbolinks'
-gem 'uglifier'
+gem 'uglifier', '>= 1.3.0'
 gem 'unicorn'
 
 group :test, :development do

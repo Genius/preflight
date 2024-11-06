@@ -1,4 +1,4 @@
-class CreateAppliedChecklists < ActiveRecord::Migration
+class CreateAppliedChecklists < ActiveRecord::Migration[4.2]
   def change
     create_table :applied_checklists do |t|
       t.belongs_to :checklist, null: false
@@ -8,6 +8,5 @@ class CreateAppliedChecklists < ActiveRecord::Migration
     end
 
     add_index :applied_checklists, [:github_pull_request_id, :checklist_id], unique: true, name: 'one_checklist_application_per_pull'
-    add_index :applied_checklists, :checklist_id
   end
 end

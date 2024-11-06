@@ -1,3 +1,5 @@
+require 'request_forgery_protection_token_verifier'
+
 OmniAuth.config.allowed_request_methods = [:post]
 OmniAuth.config.before_request_phase = RequestForgeryProtectionTokenVerifier.new
 

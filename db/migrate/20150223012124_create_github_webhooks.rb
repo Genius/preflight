@@ -1,4 +1,4 @@
-class CreateGithubWebhooks < ActiveRecord::Migration
+class CreateGithubWebhooks < ActiveRecord::Migration[4.2]
   def change
     create_table :github_webhooks do |t|
       t.integer :github_id, null: false
@@ -9,6 +9,5 @@ class CreateGithubWebhooks < ActiveRecord::Migration
     end
 
     add_index :github_webhooks, :github_id
-    add_index :github_webhooks, :github_repository_id, unique: true
   end
 end

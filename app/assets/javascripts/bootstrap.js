@@ -1,3 +1,4 @@
-$(document).on("ready page:load", function() {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+jQuery(function() {
+  $("a[rel~=popover], .has-popover").popover();
+  $("a[rel~=tooltip], .has-tooltip").tooltip();
+});

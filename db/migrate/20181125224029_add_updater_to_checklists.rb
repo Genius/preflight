@@ -1,4 +1,4 @@
-class AddUpdaterToChecklists < ActiveRecord::Migration
+class AddUpdaterToChecklists < ActiveRecord::Migration[4.2]
   def up
     add_column :checklists, :last_updated_by_id, :integer
     execute %(UPDATE checklists SET last_updated_by_id = created_by_id)

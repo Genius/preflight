@@ -2,8 +2,8 @@
 # SPDX-FileCopyrightText: 2023 Awayume <dev@awayume.jp>
 # SPDX-License-Identifier: MIT
 
-module MarkdownParser
-  autoload :Task, 'markdown_parser/task'
+module MarkdownChecklistParser
+  autoload :Task, 'markdown_checklist_parser/task'
 
   module_function
 

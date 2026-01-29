@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MarkdownParser do
+RSpec.describe MarkdownChecklistParser do
   describe '.parse' do
     context 'with simple unchecked tasks' do
       it 'reports unchecked required tasks' do
@@ -10,7 +10,7 @@ RSpec.describe MarkdownParser do
           - [ ] Task 3
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(2)
         expect(result[:message]).to include('You should check these:')
@@ -25,7 +25,7 @@ RSpec.describe MarkdownParser do
           - [x] Task 2
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(0)
         expect(result[:message]).to eq('')
@@ -39,7 +39,7 @@ RSpec.describe MarkdownParser do
           - [ ] Task 2 <!-- Optional -->
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(0)
         expect(result[:message]).to eq('')
@@ -52,7 +52,7 @@ RSpec.describe MarkdownParser do
           - [x] Checked task
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(1)
         expect(result[:message]).to include('You should check these:')
@@ -71,7 +71,7 @@ RSpec.describe MarkdownParser do
           - [ ] Optional unchecked <!-- Optional -->
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(2)
         expect(result[:message]).to include('> - Unchecked 1')
@@ -83,7 +83,7 @@ RSpec.describe MarkdownParser do
 
     context 'with edge cases' do
       it 'handles empty string' do
-        result = MarkdownParser.parse('')
+        result = MarkdownChecklistParser.parse('')
 
         expect(result[:unchecked]).to eq(0)
         expect(result[:message]).to eq('')
@@ -95,7 +95,7 @@ RSpec.describe MarkdownParser do
           No tasks here
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(0)
         expect(result[:message]).to eq('')
@@ -104,7 +104,7 @@ RSpec.describe MarkdownParser do
       it 'handles single unchecked task' do
         pr_body = '- [ ] Single task'
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(1)
         expect(result[:message]).to include('You should check these:')
@@ -114,7 +114,7 @@ RSpec.describe MarkdownParser do
       it 'handles single checked task' do
         pr_body = '- [x] Checked task'
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(0)
         expect(result[:message]).to eq('')
@@ -123,7 +123,7 @@ RSpec.describe MarkdownParser do
       it 'handles tasks with special characters in title' do
         pr_body = '- [ ] Task with special chars: @#$%^&*()'
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(1)
         expect(result[:message]).to include('> - Task with special chars: @#$%^&*()')
@@ -132,7 +132,7 @@ RSpec.describe MarkdownParser do
       it 'handles tasks with extra whitespace' do
         pr_body = '  - [ ]   Task with spaces  '
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(1)
         expect(result[:message]).to include('> - Task with spaces')
@@ -146,7 +146,7 @@ RSpec.describe MarkdownParser do
           - [ ] Unchecked task
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(1)
         expect(result[:message]).to include('> - Unchecked task')
@@ -165,7 +165,7 @@ RSpec.describe MarkdownParser do
           - [ ] Task 3
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(2)
         expect(result[:message]).to include('> - Task 1')
@@ -181,7 +181,7 @@ RSpec.describe MarkdownParser do
           - [ ] Required task
         BODY
 
-        result = MarkdownParser.parse(pr_body)
+        result = MarkdownChecklistParser.parse(pr_body)
 
         expect(result[:unchecked]).to eq(1)
         expect(result[:message]).to include('You should check these:')

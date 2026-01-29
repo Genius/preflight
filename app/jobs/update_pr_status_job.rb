@@ -8,7 +8,7 @@ class UpdatePrStatusJob < ApplicationJob
     merge_sha = pr[:merge_commit_sha]
     body = pr[:body]
 
-    body_results = MarkdownParser.parse(body)
+    body_results = MarkdownChecklistParser.parse(body)
 
     status = :success
     desc = 'Ready for takeoff!'

@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2023 Awayume <dev@awayume.jp>
 # SPDX-License-Identifier: MIT
 
-module MarkdownParser
+module MarkdownChecklistParser
   class Task
     BASE_REGEX = /- +\[.\] +/
     CHECKED_REGEX = /- +\[x\] +.+/i

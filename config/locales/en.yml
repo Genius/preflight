@@ -30,4 +30,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  check_name: "Preflight Checklist"
+  status_by_unchecked_count:
+    zero: "Ready for takeoff!"
+    one: "A box has not yet been checked yet."
+    other: "%{count} boxes have not been checked yet."
+  parsing_error_status: "Failed to parse the checklist. Are you sure it's valid Markdown?"

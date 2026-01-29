@@ -8,16 +8,21 @@ class UpdatePrStatusJob < ApplicationJob
     merge_sha = pr[:merge_commit_sha]
     body = pr[:body]
 
-    body_results = MarkdownChecklistParser.parse(body)
+    begin
+      body_results = MarkdownChecklistParser.parse(body)
 
-    status = :success
-    desc = 'Ready for takeoff!'
+      desc = I18n.t('status_by_unchecked_count', count: body_results[:unchecked])
 
-    if body_results[:unchecked] > 0
-      status = :pending
-      desc = 'One or more boxes have yet to be checked.'
+      if body_results[:unchecked] > 0
+        status = :pending
+      else
+        status = :success
+      end
+    rescue Exception
+      desc = I18n.t('parsing_error_status')
+      status = :error
     end
 
-    client.create_status(repo.github_full_name, merge_sha, status, context: 'Preflight Checklist', description: desc)
+    client.create_status(repo.github_full_name, merge_sha, status, context: I18n.t('check_name'), description: desc)
   end
 end

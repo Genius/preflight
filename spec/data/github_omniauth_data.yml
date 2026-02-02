@@ -1,0 +1,59 @@
+--- !ruby/hash:OmniAuth::AuthHash
+provider: github
+uid: '<%= uid %>'
+info: !ruby/hash:OmniAuth::AuthHash::InfoHash
+  nickname: github_username
+  email: github@example.com
+  name: GitHub User
+  image: https://avatars.githubusercontent.com/u/<%= uid %>?v=4
+  urls: !ruby/hash:OmniAuth::AuthHash
+    GitHub: https://github.com/github_username
+    Blog: https://example.com
+credentials: !ruby/hash:OmniAuth::AuthHash
+  token: ghu_DUMMY
+  refresh_token: ghr_DUMMY
+  expires_at: 1755593394
+  expires: true
+extra: !ruby/hash:OmniAuth::AuthHash
+  raw_info: !ruby/hash:SnakyHash::StringKeyed
+    login: github_username
+    id: <%= uid %>
+    node_id: MDQ6VXNlcjM0NTU1NTEw
+    avatar_url: https://avatars.githubusercontent.com/u/<%= uid %>?v=4
+    gravatar_id: ''
+    url: https://api.github.com/users/github_username
+    html_url: https://github.com/github_username
+    followers_url: https://api.github.com/users/github_username/followers
+    following_url: https://api.github.com/users/github_username/following{/other_user}
+    gists_url: https://api.github.com/users/github_username/gists{/gist_id}
+    starred_url: https://api.github.com/users/github_username/starred{/owner}{/repo}
+    subscriptions_url: https://api.github.com/users/github_username/subscriptions
+    organizations_url: https://api.github.com/users/github_username/orgs
+    repos_url: https://api.github.com/users/github_username/repos
+    events_url: https://api.github.com/users/github_username/events{/privacy}
+    received_events_url: https://api.github.com/users/github_username/received_events
+    type: User
+    user_view_type: public
+    site_admin: false
+    name: GitHub User
+    company:
+    blog: https://example.com/
+    location: Brooklyn
+    email:
+    hireable:
+    bio:
+    twitter_username:
+    notification_email:
+    public_repos: 108
+    public_gists: 2
+    followers: 137
+    following: 86
+    created_at: '2017-12-14T21:32:49Z'
+    updated_at: '2025-08-14T16:19:43Z'
+  all_emails: !ruby/array:Hashie::Array
+    - !ruby/hash:OmniAuth::AuthHash
+      email: <%= uid %>+github_username@users.noreply.github.com
+      primary: true
+      verified: true
+      visibility:
+  scope: ''

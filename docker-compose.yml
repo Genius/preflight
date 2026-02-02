@@ -1,14 +1,14 @@
-version: '3'
+name: preflight
+
 services:
   db:
-    image: postgres:14.12
+    image: postgres:17
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER:
-      POSTGRES_PASSWORD:
-      POSTGRES_DB:
-
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
   web:
     build: .

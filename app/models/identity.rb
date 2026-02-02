@@ -1,11 +1,18 @@
 class Identity < ApplicationRecord
+  OMNIAUTH_SAFE_SERIALIZABLE_CLASSES = [
+    OmniAuth::AuthHash,
+    SnakyHash::StringKeyed,
+    OmniAuth::AuthHash::InfoHash,
+    Hashie::Array
+  ].freeze
+
   belongs_to :user, inverse_of: :identities
   validates :provider, presence: true, :inclusion => { in: %w(github) }
   validates :omniauth_data, presence: true
   validates :uid, uniqueness: {scope: [:provider]}
   validates :provider, uniqueness: {scope: [:user_id]}
 
-  serialize :omniauth_data, Hash
+  serialize :omniauth_data, yaml: {permitted_classes: OMNIAUTH_SAFE_SERIALIZABLE_CLASSES}
 
   def self.link!(omniauth)
     create! do |a|

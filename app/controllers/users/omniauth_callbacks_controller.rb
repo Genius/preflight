@@ -1,5 +1,5 @@
 class Users::OmniauthCallbacksController < ApplicationController
-  before_action :check_team_membership
+  before_action :check_team_membership, except: :failure
 
   def github
     if user_signed_in?
@@ -11,6 +11,9 @@ class Users::OmniauthCallbacksController < ApplicationController
       flash[:notice] = after_sign_in_notice_for(user)
       sign_in_and_redirect(user)
     end
+  end
+
+  def failure
   end
 
   private

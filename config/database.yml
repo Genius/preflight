@@ -1,14 +1,22 @@
-development:
+local_defaults: &local_defaults
   adapter: postgresql
-  host: <%= ENV.fetch("DB_HOST", "localhost") %>
-  database: <%= ENV.fetch("POSTGRES_DB", "preflight-dev") %>
-  username: <%= ENV.fetch("POSTGRES_USER", "") %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD", "") %>
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", "5432") %>
+  username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", "postgres") %>
   pool: 10
   timeout: 5000
 
+development:
+  <<: *local_defaults
+  database: <%= ENV.fetch("POSTGRES_DB", "preflight-dev") %>
+
 test:
-  adapter: postgresql
+  <<: *local_defaults
   database: preflight-test
-  pool: 10
-  timeout: 5000
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  url: <%= ENV.fetch("DATABASE_URL") { "postgres://127.0.0.1:5432" } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>

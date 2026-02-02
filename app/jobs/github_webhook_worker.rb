@@ -3,7 +3,8 @@ class GithubWebhookWorker < Struct.new(:headers, :body)
   WANTED_HEADERS = %w(X-GitHub-Event X-GitHub-Delivery) << HUB_SIGNATURE
   InvalidSignature = Class.new(StandardError)
 
-  HANDLED_ACTIONS = %w(opened synchronize)
+  ADD_CHECKLIST_HANDLED_ACTIONS = %w(opened synchronize)
+  UPDATE_STATUS_HANDLED_ACTIONS = %w(opened synchronize edited)
 
   def self.get_headers(headers)
     WANTED_HEADERS.each_with_object({}) do |header, hash|
@@ -14,11 +15,16 @@ class GithubWebhookWorker < Struct.new(:headers, :body)
   def perform
     verify_signature!
 
-    return unless HANDLED_ACTIONS.include?(action)
-    return unless repo = GithubRepository.find_by_github_id(repository_id)
     return unless installation_id.present?
+    return unless (repo = GithubRepository.find_by_github_id(repository_id))
 
-    repo.apply_checklists_for_pull!(installation_id, pull_id, number)
+    if ADD_CHECKLIST_HANDLED_ACTIONS.include?(action)
+      repo.apply_checklists_for_pull!(installation_id, pull_id, number)
+    end
+
+    if UPDATE_STATUS_HANDLED_ACTIONS.include?(action)
+      UpdatePrStatusJob.perform_later(installation_id, repo, number)
+    end
   end
 
   def verify_signature!

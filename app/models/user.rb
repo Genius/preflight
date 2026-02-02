@@ -68,6 +68,11 @@ class User < ApplicationRecord
     github_identity.profile_url
   end
 
+  def make_admin!
+    self.admin = true
+    save!
+  end
+
   private
 
   def github_identity

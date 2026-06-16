@@ -5,7 +5,7 @@ class UpdatePrStatusJob < ApplicationJob
     client = GithubClient.for_installation(installation_id)
     pr = client.pull_request(repo.github_full_name, pr_number)
 
-    merge_sha = pr[:merge_commit_sha]
+    head_sha = pr.dig(:head, :sha)
     body = pr[:body]
 
     begin
@@ -23,6 +23,6 @@ class UpdatePrStatusJob < ApplicationJob
       status = :error
     end
 
-    client.create_status(repo.github_full_name, merge_sha, status, context: I18n.t('check_name'), description: desc)
+    client.create_status(repo.github_full_name, head_sha, status, context: I18n.t('check_name'), description: desc)
   end
 end

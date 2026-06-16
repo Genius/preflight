@@ -34,7 +34,7 @@ class Users::OmniauthCallbacksController < ApplicationController
     login = omniauth.info.nickname
 
     unless client.team_member?(ENV.fetch('GITHUB_TEAM_ID'), login)
-      render :status => :forbidden, :text => "Sorry!"
+      render :status => :forbidden, :plain => "Sorry!"
     end
   end
 
